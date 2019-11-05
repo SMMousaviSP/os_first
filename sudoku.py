@@ -30,6 +30,17 @@ def check_row(s, row):
             return False
     return True
 
+def check_col(s, col):
+    flag = [False for i in range(9)]
+    for i in range(9):
+        if flag[s[i][col]-1]:
+            return False
+        flag[s[i][col]-1] = True
+    for i in flag:
+        if not i:
+            return False
+    return True
+
 def check_box(s, row, col):
     flag = [False for i in range(9)]
     for i in range(row, row + 3):
