@@ -19,3 +19,13 @@ sudokuWrong   = [[8, 9, 2, 7, 5, 3, 6, 4, 9],
                  [4, 3, 8, 5, 2, 6, 9, 1, 7],
                  [7, 9, 6, 3, 1, 8, 4, 5, 2]]
 
+def check_row(s, row):
+    flag = [False for i in range(9)]
+    for i in s[row]:
+        if flag[i-1]:
+            return False
+        flag[i-1] = True
+    for i in flag:
+        if not i:
+            return False
+    return True
