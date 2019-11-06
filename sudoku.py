@@ -51,13 +51,13 @@ def check_box(s, row, col):
     return check_flag(flag)
 
 def check_all_row(s):
-    flag = [False for i in range(9)]
     for i in range(9):
-        flag[i] = check_row(s, i)
-    return check_flag(flag)
+        if not check_row(s, i):
+            return False
+    return True
 
 def check_all_col(s):
-    flag = [False for i in range(9)]
     for i in range(9):
-        flag[i] = check_col(s, i)
-    return check_flag(flag)
+        if not check_col(s, i):
+            return False
+    return True
