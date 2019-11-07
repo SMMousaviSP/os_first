@@ -1,3 +1,6 @@
+import multiprocessing as mp
+import time
+
 sudokuCorrect = [[8, 1, 2, 7, 5, 3, 6, 4, 9],
                  [9, 4, 3, 6, 8, 2, 1, 7, 5],
                  [6, 7, 5, 4, 9, 1, 2, 8, 3],
@@ -26,6 +29,7 @@ def check_flag(flag):
     return True
 
 def check_row(s, row):
+    time.sleep(0.1)
     print("Start check_row method with row " + str(row))
     flag = [False for i in range(9)]
     for i in s[row]:
@@ -38,6 +42,7 @@ def check_row(s, row):
     return final_flag
 
 def check_col(s, col):
+    time.sleep(0.1)
     print("Start check_col method with col " + str(col))
     flag = [False for i in range(9)]
     for i in range(9):
@@ -50,7 +55,9 @@ def check_col(s, col):
     return final_flag
 
 def check_box(s, row, col):
-    print("Start check_box method with row " + str(row) + " and col " + str(col))
+    time.sleep(0.1)
+    print("Start check_box method with row " 
+           + str(row) + " and col " + str(col))
     flag = [False for i in range(9)]
     for i in range(row, row + 3):
         for j in range(col, col + 3):
@@ -79,3 +86,55 @@ def check_all_col(s):
             return False
     print("End check_all_col method with return value True")
     return True
+
+def get_flag(flag):
+    result.append(flag)
+
+def terminate_callback(flag):
+    fastestResult.append(flag)
+    if not flag:
+        pool.terminate()
+
+def check_sudoku_parallel(s, callback):
+    global pool
+    pool = mp.Pool(mp.cpu_count())
+    pool.apply_async(check_all_col, (s,), callback=callback)
+    pool.apply_async(check_all_row, (s,), callback=callback)
+    for i in range(0, 9, 3):
+        for j in range(0, 9, 3):
+            pool.apply_async(check_box, (s, i, j,), callback=callback)
+    pool.close()
+    pool.join()
+
+def check_sudoku_slow(s):
+    global result
+    start = time.time()
+    result = []
+    print("-------------------------------------------------------------------")
+    check_sudoku_parallel(s, get_flag)
+    print("Result List:")
+    print(result)
+    print("Final Result:")
+    print(check_flag(result))
+    print("duration " + str(time.time() - start))
+    print("-------------------------------------------------------------------")
+
+def check_sudoku_fast(s):
+    global fastestResult
+    start = time.time()
+    fastestResult = []
+    print("-------------------------------------------------------------------")
+    check_sudoku_parallel(s, terminate_callback)
+    print("Result List:")
+    print(fastestResult)
+    print("Final Result:")
+    print(check_flag(fastestResult))
+    print("duration " + str(time.time() - start))
+    print("-------------------------------------------------------------------")
+
+if __name__ == '__main__':
+    check_sudoku_slow(sudokuCorrect)
+    check_sudoku_slow(sudokuWrong)
+
+    check_sudoku_fast(sudokuCorrect)
+    check_sudoku_fast(sudokuWrong)
