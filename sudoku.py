@@ -110,7 +110,7 @@ def check_sudoku_slow(s):
     global result
     start = time.time()
     result = []
-    print("-------------------------------------------------------------------")
+    print("----slow-----------------------------------------------------------")
     check_sudoku_parallel(s, get_flag)
     print("Result List:")
     print(result)
@@ -123,7 +123,7 @@ def check_sudoku_fast(s):
     global fastestResult
     start = time.time()
     fastestResult = []
-    print("-------------------------------------------------------------------")
+    print("----fast-----------------------------------------------------------")
     check_sudoku_parallel(s, terminate_callback)
     print("Result List:")
     print(fastestResult)
