@@ -132,6 +132,15 @@ def check_sudoku_fast(s):
     print("duration " + str(time.time() - start))
     print("-------------------------------------------------------------------")
 
+def read_multiple_int():
+    return [int(x) for x in input().split(' ')]
+
+def read_sudoku_from_terminal():
+    s = []
+    for _ in range(9):
+        s.append(read_multiple_int())
+    return s
+
 if __name__ == '__main__':
     check_sudoku_slow(sudokuCorrect)
     check_sudoku_slow(sudokuWrong)
