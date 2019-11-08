@@ -141,9 +141,31 @@ def read_sudoku_from_terminal():
         s.append(read_multiple_int())
     return s
 
-if __name__ == '__main__':
-    check_sudoku_slow(sudokuCorrect)
-    check_sudoku_slow(sudokuWrong)
+def read_sudoku_from_file():
+    pass
 
-    check_sudoku_fast(sudokuCorrect)
-    check_sudoku_fast(sudokuWrong)
+def double_check_sudoku(s):
+    check_sudoku_slow(s)
+    check_sudoku_fast(s)
+
+if __name__ == '__main__':
+    while True:
+        print("Which sudoku do you want to be checked?")
+        print("0 - Default Correct sudoku")
+        print("1 - Default Wrong sudoku")
+        print("2 - Read a sudoku from terminal")
+        print("3 - Read a sudoku from file")
+        print("4 - Exit")
+        n = int(input())
+        if n == 0:
+            double_check_sudoku(sudokuCorrect)
+        elif n == 1:
+            double_check_sudoku(sudokuWrong)
+        elif n == 2:
+            double_check_sudoku(read_sudoku_from_terminal())
+        elif n == 3:
+            double_check_sudoku(read_sudoku_from_file())
+        elif n == 4:
+            break
+        else:
+            print("404 not found, please try again.")
