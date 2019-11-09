@@ -132,17 +132,28 @@ def check_sudoku_fast(s):
     print("duration " + str(time.time() - start))
     print("-------------------------------------------------------------------")
 
-def read_multiple_int():
-    return [int(x) for x in input().split(' ')]
+def read_multiple_int(s):
+    if s == '':
+        return
+    return [int(x) for x in s.split(' ')]
 
 def read_sudoku_from_terminal():
     s = []
     for _ in range(9):
-        s.append(read_multiple_int())
+        s.append(read_multiple_int(input()))
     return s
 
 def read_sudoku_from_file():
-    pass
+    print("Enter file address")
+    address = input()
+    f = open(address, 'r')
+    if f.mode == 'r':
+        content = f.read()
+        s = [read_multiple_int(y) for y in content.split("\n")]
+        if s[len(s) - 1] == None:
+            s.pop()
+        return s
+    print("Can't Read the file")
 
 def double_check_sudoku(s):
     check_sudoku_slow(s)
